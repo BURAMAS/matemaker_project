@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+{% extends 'matemaker/base_pages.html' %}
+{% load matemaker_template_tags %}
+{% load staticfiles %}
+{% block title_block %}
+	Home Page
+{% endblock %}
+<html>
+<head>
+<style>
+{% block style_block %}
+body {
+  background-color: #659DBD;
+  display: grid;
+  grid-template-areas:
+    "header header header"
+    "nav article ads"
+    "nav footer footer";
+  grid-template-rows: 80px 1fr 70px;
+  grid-template-columns: 20% 1fr 15%;
+  grid-row-gap: 10px;
+  grid-column-gap: 10px;
+  height: 100vh;
+  margin: 0;
+  }
+header, footer, article, nav, div {
+  padding: 1.2em;
+  background: #DAAD86;
+  font-family: Verdana;
+  color: #FBEEC1;}
+  }
+#pageHeader {
+  grid-area: header;
+  }
+#pageFooter {
+  grid-area: footer;
+  }
+#mainArticle {
+  grid-area: article;
+  }
+#mainNav {
+  grid-area: nav;
+  }
+#siteAds {
+  grid-area: ads;
+  }
+
+@media all and (max-width: 575px) {
+  body {
+    grid-template-areas:
+      "header"
+      "article"
+      "ads"
+      "nav"
+      "footer";
+    grid-template-rows: 80px 1fr 70px 1fr 70px;
+    grid-template-columns: 1fr;
+ }
+}
+{% endblock %}
+</style>
+</head>
+{% block body_block %}
+  <div id= "pageHeader">
+
+    Matemaker Project
+    <input class="btn btn-success" type="button" value="Contact us" onclick="location.href='{% url 'matemaker:contact_us' %}' "/>
+</div>
+
+<div id="mainArticle">
+  <h2>Biggest Communities</h2>
+    {% if genres %}
+    {% for g in genres %}
+        <div>
+		<li><a href="{% url 'matemaker:genre' g.slug %}"> {{ g.name }} </a></li>
+        </div>
+    {% endfor %}
+    
+{% else %}
+    <h1> No community found </h1>
+{% endif %}
+
+</div>
+
+  <div id="siteAds">
+  {% if user.is_authenticated %}
+      <h2>Hello, {{ user.username }}</h2> 
+      <input class="btn btn-success" type="button" value="Signout" onclick="location.href='{% url 'matemaker:signout' %}' "/>
+      <input class="btn btn-success" type="button" value="My Profile" onclick="location.href='{% url 'matemaker:edit_profile' user.username %}' "/>
+
+  {% else %}
+      <input class="btn btn-success" type="button" value="Login" onclick="location.href='{% url 'matemaker:login' %}' "/>
+      <input class="btn btn-success" type="button" value="Signup" onclick="location.href='{% url 'matemaker:register' %}' "/>
+  {% endif %}
+  </div>
+
+
+<img src="{% static 'images/logo_size.jpg' %}"
+      alt="Matemaker" />
+
+
+<div class = "a2">
+  <input class="btn btn-success" type="button" value="All Genres" onclick="location.href='{% url 'matemaker:genres' %}' "/>
+</div>
+
+<table style="width:250px">
+  <tr>
+    <th>Trending topic</th>
+    <th>Genre</th>
+    <th>Popularity</th>
+  </tr>
+  {% if interests %}
+  <tr>
+    {% for interest in interests %}
+     
+        <th><a href="{% url 'matemaker:interest' interest.genre.slug interest.slug %}">{{ interest.name }} </a></th>
+        <th><a href="{% url 'matemaker:genre' interest.genre.slug %}">{{ interest.genre.name }} </a></th>  
+        <th>{{ interest.views }}</th>
+      </tr>
+    {% endfor %}
+    
+</table>
+{% endif %}
+
+{% endblock %}

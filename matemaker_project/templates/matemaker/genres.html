@@ -1,0 +1,42 @@
+<!doctype html>
+{% load matemaker_template_tags %}
+<title>Genres</title>
+<style>
+body {background-color: #659DBD;}
+#grid {
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+}
+#grid > div {
+  background: #DAAD86;
+  font-family: Verdana;
+  color: #FBEEC1;
+  font-size: 4vw;
+  padding: 10px;
+}
+
+.a {font-family: Verdana; color: #FBEEC1; font-size: 20px;}
+
+</style>
+<div id="grid">
+
+{% get_genre_list %}
+  {% comment %} <div>Sports</div>
+  <div>Music</div>
+  <div>Fashion</div>
+  <div>Art</div>
+  <div>Technology</div>
+  <div>Health</div>
+  <div>Education</div>
+  <div>News</div>
+  <div>Food</div> {% endcomment %}
+</div>
+
+<div class= "a">
+  {% if user.is_authenticated %}
+    <input class="btn btn-success" type="button" value="add genre" onclick="location.href='{% url 'matemaker:add_genre' %}' "/>
+  {% endif %}
+</div>
+<footer id="pageFooter"><a href="{% url 'matemaker:home' %}">Home</a></footer>

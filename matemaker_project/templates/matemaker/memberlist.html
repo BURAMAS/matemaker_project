@@ -1,0 +1,11 @@
+{% load staticfiles %}
+{% if members %}
+    {% for m in members %}
+        <div>
+            <img src="{{ m.picture.url }}" width="50" height="50">
+            <a href="{% url 'matemaker:profile' m %}">{{ m }} </a>
+        </div>
+    {% endfor %}
+{% else %}
+    <h1> No members (yet!) </h1>
+{% endif %}

@@ -1,0 +1,98 @@
+<!doctype html>
+{% load matemaker_template_tags %}
+
+{% load staticfiles %}
+
+<head>
+  <title>{{interest}}</title>
+  <style>
+  body {
+    background-color: #659DBD;
+    display: grid;
+    grid-template-areas:
+      "header header header"
+      "article nav ads"
+      "footer footer footer";
+    grid-template-rows: 80px 1fr 70px;
+    grid-template-columns: 1fr 20% 15%;
+    grid-row-gap: 10px;
+    grid-column-gap: 10px;
+    height: 100vh;
+    margin: 0;
+    }
+  header, footer, article, nav, div {
+    padding: 1.2em;
+    background: #DAAD86;
+    font-family: Verdana;
+    color: #FBEEC1;
+    }
+  #pageHeader {
+    grid-area: header;
+    }
+  #pageFooter {
+    grid-area: footer;
+    }
+  #mainArticle {
+    grid-area: article;
+    }
+  #mainNav {
+    grid-area: nav;
+    }
+  #siteAds {
+    grid-area: ads;
+    }
+
+  @media all and (max-width: 575px) {
+    body {
+      grid-template-areas:
+        "header"
+        "article"
+        "ads"
+        "nav"
+        "footer";
+      grid-template-rows: 80px 1fr 70px 1fr 70px;
+      grid-template-columns: 1fr;
+  }
+  }
+  </style>
+</head>
+
+<body>
+<h1><a href="{% url 'matemaker:home' %}"> Home </a> </h1>
+  <header id="pageHeader">{{interest}} Creator: <a href="{% url 'matemaker:profile' interest.creator %}"> {{interest.creator}}</a> Members:{{interest.members}}</header>
+  <article id="mainArticle">Posts
+  <ul>
+    {% get_post_list interest genre %}
+  </ul>
+    
+  </article>
+  <nav id="mainNav">
+    Members
+    {% get_member_list interest %}
+  </nav>
+  <div id="siteAds">
+    <a href="{% url 'matemaker:join' genre_slug interest_slug %}">Join</a>
+    <a href url="{% url 'matemaker:leave' genre_slug interest_slug %}">Leave</a>
+  </div>
+  <footer id="pageFooter">
+      {% if user.is_authenticated %}
+    <form id="post_form" method="post" action="{% url 'matemaker:add_post' genre.slug interest.slug %}">
+      {% csrf_token %}
+      <span>{{post_form.as_p}}
+        <input type="submit" name="submit" value="Post"/></span>
+      
+    {% endif %}
+</form>
+  </footer>
+</body>
+
+  <div id="siteAds">
+    <form action="{% url 'matemaker:join' genre_slug interest_slug %}" method=POST>
+        {% csrf_token %}
+        <button type="submit">Join</button>
+    </form>
+    <form action="{% url 'matemaker:leave' genre_slug interest_slug %}" method=POST>
+        {% csrf_token %}
+        <button type="submit">Leave</button>
+    </form>
+  </div>

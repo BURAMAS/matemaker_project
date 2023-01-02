@@ -1,0 +1,67 @@
+<!doctype html>
+{% load matemaker_template_tags %}
+<title>Genre</title>
+<style>
+body {
+  background-color: #659DBD;
+  display: grid;
+  grid-template-areas:
+    "header header header"
+    "nav article ads"
+    "nav footer footer";
+  grid-template-rows: 80px 1fr 70px;
+  grid-template-columns: 20% 1fr 15%;
+  grid-row-gap: 10px;
+  grid-column-gap: 10px;
+  height: 100vh;
+  margin: 0;
+  }
+header, footer, article, nav, div {
+  padding: 1.2em;
+  background: #DAAD86;
+  font-family: Verdana;
+  color: #FBEEC1;
+  }
+#pageHeader {
+  grid-area: header;
+  }
+#pageFooter {
+  grid-area: footer;
+  }
+#mainArticle {
+  grid-area: article;
+  }
+#mainNav {
+  grid-area: nav;
+  }
+#siteAds {
+  grid-area: ads;
+  }
+
+@media all and (max-width: 575px) {
+  body {
+    grid-template-areas:
+      "header"
+      "article"
+      "ads"
+      "nav"
+      "footer";
+    grid-template-rows: 80px 1fr 70px 1fr 70px;
+    grid-template-columns: 1fr;
+ }
+}
+</style>
+<body>
+  <header id="pageHeader">{{ genre.name }} Creator:<a href="{% url 'matemaker:profile' genre.creator %}">{{genre.creator}} </a>Members:{{genre.members}}</header>
+  <article id="mainArticle">Instrests
+  {% get_interest_list genre %}
+  <div>
+    <input class="btn btn-success" type="button" value="add interest" onclick="location.href='{% url 'matemaker:add_interest' genre.slug %}' "/>
+  </div>
+  </article>
+  <nav id="mainNav"><a href="{% url 'matemaker:genres' %}">Genres</a>
+  {% get_genre_list %}
+  {% comment %} <div id="siteAds"><a href="{% url 'matemaker:create_intrest' %}">Add Intrest</a></div> {% endcomment %}
+  </nav>
+  <footer id="pageFooter"><a href="{% url 'matemaker:home' %}">Home</a></footer>
+</body>

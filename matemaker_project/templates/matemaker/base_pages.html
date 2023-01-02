@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+	<head>
+		<style>
+			{% block style_block %}
+
+			{% endblock %}
+		</style>
+		<title>
+			Matemaker -
+            {% block title_block %}
+
+            {% endblock %}
+    </title>
+  	</head>
+  	<body>
+        {% block body_block %}
+
+        {% endblock %}
+	</body>
+</html>

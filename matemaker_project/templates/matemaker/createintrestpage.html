@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+h1 {font-family: verdana; color: #FBEEC1;}
+body {background-color: #659DBD;}
+.name {font-family:verdana; color: #FBEEC1; padding-bottom: 30px;}
+</style>
+
+<h1>Create Intrest for {{genre}} </h1>
+<form id="intrest_form" method="post" action="{% url 'matemaker:add_interest' genre %}">
+  {% csrf_token %}
+    {{ interest_form.as_p}}
+    <input type="submit" name="submit" value="Create Intrest"/>
+</form>

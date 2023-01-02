@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+h1 {font-family: verdana; color: #FBEEC1;}
+body {background-color: #659DBD;}
+.name {font-family:verdana; color: #FBEEC1; padding-bottom: 30px;}
+</style>
+
+<h1>Create Genre</h1>
+<form id="genre_form" method="post" action="{% url 'matemaker:add_genre' %}">
+    {% csrf_token %}
+    {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+    {% endfor %}
+    {% for field in form.visible_fields %}
+        {{ field.errors }}
+        {{ field.help_text }}
+        {{ field }}
+    {% endfor %}
+    {% comment %} <div class = "name">
+        Genre Name: <input type="text" name="genrename" value="" size="50" />
+    </div> {% endcomment %}
+    <input type="submit" name="submit" value="Create Genre"/>
+</form>
